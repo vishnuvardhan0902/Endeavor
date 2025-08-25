@@ -1,0 +1,11 @@
+export const DEFAULT_TIME_MIN = 60; // 1 hour
+export const SESSION_KEY = "contest_data";
+export const SESSION_STARTED_KEY = "contest_started_v1";
+export const SESSION_CONSUMED_KEY = "contest_consumed_v1";
+export const SESSION_TIME_KEY = "contest_time_left_v1";
+export const HISTORY_KEY = "test_history";
+export const AUTO_CLEAN_LOCAL_HISTORY = true;
+export const ANSWERS_AUTOSAVE_KEY = "contest_answers_autosave_v1";
+export const DSA_AUTOSAVE_KEY = "contest_dsa_autosave_v1";
+export const GENERIC_AUTOSAVE_KEY = "contest_generic_autosave_v1";
+export const SINGLE_QUESTION_KEY = "contest_single_question_v1";
