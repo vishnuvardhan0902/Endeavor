@@ -8,7 +8,7 @@ import { FileUpload } from "./FileUpload";
 import { processUploadResponse } from "./uploadUtils";
 
 const MICRO_SERVICE_URI =
-    process.env.NEXT_PUBLIC_MICRO_SERVICE_URL ;
+    process.env.NEXT_PUBLIC_MICROSERVICE_URL || "http://127.0.0.1:8000";
 
 export interface LandingPageProps {
     onUpload?: (questions: any) => void;
@@ -80,10 +80,17 @@ export function LandingPageRefactored({ onUpload }: LandingPageProps) {
             }, 350);
             
         } catch (err: any) {
-            console.error("upload error:", err?.response || err);
+            console.error("upload error:", err);
+            console.error("MICRO_SERVICE_URI:", MICRO_SERVICE_URI);
             if (err?.response) {
+                console.error("Response data:", err.response.data);
+                console.error("Response status:", err.response.status);
                 showAlert({ message: `Upload failed: ${err.response.status} ${err.response.statusText}`, variant: 'destructive' });
+            } else if (err?.code) {
+                console.error("Error code:", err.code);
+                showAlert({ message: `Upload failed: ${err.code} - ${err.message || 'Network error'}`, variant: 'destructive' });
             } else {
+                console.error("Unknown error:", err);
                 showAlert({ message: "Upload failed: no response from microservice (check CORS and that it's running)", variant: 'destructive' });
             }
         } finally {
