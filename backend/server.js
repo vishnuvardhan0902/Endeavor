@@ -7,7 +7,7 @@ const cors = require("cors");
 
 // Allow requests from your frontend
 app.use(cors({
-    origin: true,
+    origin: ["https://endeavor-ai.onrender.com", "https://localhost:3000"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true 
 }));

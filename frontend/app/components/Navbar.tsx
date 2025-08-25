@@ -2,17 +2,19 @@
 import Link from 'next/link';
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
+import axios from 'axios';
 
 export function Navbar() {
     const { data: session } = useSession();
+    const backend_uri = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:8000";
 
     useEffect(() => {
         if (session?.user) {
             // Send user details to backend after sign-in
-            // const res = axios.post("http://localhost:4000/user-api/register", {
-            //     name: session.user.name,
-            //     email: session.user.email
-            // });
+            const res = axios.post(`${backend_uri}/user-api/register`, {
+                name: session.user.name,
+                email: session.user.email
+            });
         }
     }, [session?.user]);
 

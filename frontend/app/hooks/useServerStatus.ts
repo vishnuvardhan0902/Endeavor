@@ -24,7 +24,7 @@ export function useServerStatus() {
     try {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:4000";
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 20000); // 5 second timeout
       
       const response = await fetch(`${backendUrl}/user-api/history`, {
         method: 'GET',
