@@ -13,8 +13,6 @@ app.use(cors({
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true
 }));
-// Ensure preflight requests are handled for all routes
-app.options('*', cors({ origin: true, credentials: true }));
 
 const mc = require('mongodb').MongoClient;
 

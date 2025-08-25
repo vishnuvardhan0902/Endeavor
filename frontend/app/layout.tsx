@@ -5,7 +5,7 @@ import Home from "./page";
 import { SessionProvider } from "next-auth/react";
 import { Providers } from "./Providers";
 import { ConditionalNavbar } from "./components/ConditionalNavbar";
-import { ServerStatusWrapper } from "./components/ServerStatusWrapper";
+import { ServerStatusWrapperCore } from "./components/ServerStatusWrapperCore";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,13 +30,17 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-          <ServerStatusWrapper>
+          <ServerStatusWrapperCore
+            initialShowStartupAnimation={false}
+            showStartupOnlyAfterReady={true}
+            suppressRenderUntilMounted={false}
+          >
             {/* Navbar is conditionally rendered - hidden on test page for full-screen exam experience */}
             <div className="min-h-screen flex flex-col">
               <ConditionalNavbar />
               <main className="flex-1">{children}</main>
             </div>
-          </ServerStatusWrapper>
+          </ServerStatusWrapperCore>
         </Providers>
       </body>
     </html>
