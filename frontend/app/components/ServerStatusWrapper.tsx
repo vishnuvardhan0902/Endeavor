@@ -18,7 +18,7 @@ interface ServerStatusWrapperProps {
 }
 
 export function ServerStatusWrapper({ children }: ServerStatusWrapperProps) {
-  const [showStartupAnimation, setShowStartupAnimation] = useState(true);
+  const [showStartupAnimation, setShowStartupAnimation] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { 
     backend, 
@@ -38,16 +38,21 @@ export function ServerStatusWrapper({ children }: ServerStatusWrapperProps) {
     return null;
   }
 
-  // Show startup animation first
-  if (showStartupAnimation) {
-    return (
-      <StartupAnimation 
-        onComplete={() => setShowStartupAnimation(false)} 
-      />
-    );
-  }
+  // Determine whether we should show the startup animation for this session.
+  useEffect(() => {
+    try {
+      const seen = typeof window !== 'undefined' && sessionStorage.getItem('endeavor:startupDone');
+      if (!seen) {
+        // Only show startup animation after the server checks finish and servers are ready.
+        // We set showStartupAnimation when servers are ready and the animation hasn't run in this session.
+        // Note: do not set it immediately to avoid blocking server checks.
+      }
+    } catch (e) {
+      // ignore session errors
+    }
+  }, []);
 
-  // Show loading screen if servers are waking up or not ready
+  // If servers are waking or not ready, show the ServerWakeupScreen first.
   if (isWaking || !isReady) {
     return (
       <ServerWakeupScreen
@@ -55,6 +60,27 @@ export function ServerStatusWrapper({ children }: ServerStatusWrapperProps) {
         microserviceStatus={microservice}
         isLoading={isLoading}
         onRetry={recheckServers}
+      />
+    );
+  }
+
+  // If servers are ready, decide whether to play the startup animation (only on new tabs / sessions)
+  if (!showStartupAnimation) {
+    try {
+      const seen = typeof window !== 'undefined' && sessionStorage.getItem('endeavor:startupDone');
+      if (!seen) {
+        // mark that we'll show it and render the animation
+        setShowStartupAnimation(true);
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  if (showStartupAnimation) {
+    return (
+      <StartupAnimation 
+        onComplete={() => setShowStartupAnimation(false)} 
       />
     );
   }

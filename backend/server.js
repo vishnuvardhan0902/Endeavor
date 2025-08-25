@@ -2,19 +2,23 @@ const exp = require('express');
 const app = exp();
 app.use(exp.json());
 require('dotenv').config({override : true});
-port = process.env.PORT || 4000;
+const port = process.env.PORT || 4000;
 const cors = require("cors");
 
-// Allow requests from your frontend
+// Allow requests from any origin. Using `origin: true` causes the CORS
+// middleware to reflect the request origin, which works even when
+// `credentials: true` is required (wildcard '*' cannot be used with credentials).
 app.use(cors({
-    origin: ["https://endeavor-ai.onrender.com", "https://localhost:3000"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true 
+    origin: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true
 }));
+// Ensure preflight requests are handled for all routes
+app.options('*', cors({ origin: true, credentials: true }));
 
 const mc = require('mongodb').MongoClient;
 
-mongo_uri = process.env.MONGO_URI
+const mongo_uri = process.env.MONGO_URI
 
 mc.connect(mongo_uri)
 .then(client => {

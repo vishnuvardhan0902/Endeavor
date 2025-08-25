@@ -47,14 +47,15 @@ export default function StartupAnimation({
     return { loading, logo, fade, total };
   }, [durationMs]);
 
-  // Persisted completion so we don't replay the animation on every reload
+  // Persisted completion in sessionStorage so the animation shows on a new tab
+  // but does not replay on reloads in the same tab.
   const STORAGE_KEY = "endeavor:startupDone";
   const finishedRef = useRef(false);
   const finish = useCallback(() => {
     if (finishedRef.current) return;
     finishedRef.current = true;
     try {
-      if (typeof window !== "undefined") localStorage.setItem(STORAGE_KEY, "1");
+      if (typeof window !== "undefined") sessionStorage.setItem(STORAGE_KEY, "1");
     } catch (e) {
       // ignore storage errors
     }
@@ -103,7 +104,7 @@ export default function StartupAnimation({
   useEffect(() => {
     if (!hydrated) return;
     try {
-      if (typeof window !== "undefined" && localStorage.getItem(STORAGE_KEY)) {
+      if (typeof window !== "undefined" && sessionStorage.getItem(STORAGE_KEY)) {
         finish();
       }
     } catch (e) {
