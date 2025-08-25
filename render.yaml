@@ -1,0 +1,33 @@
+# Render manifest to deploy backend (Express) and frontend (Next.js) as two web services.
+# After pushing this file, connect the GitHub repo in Render (https://dashboard.render.com/new) and
+# Render will create the services defined here. You must provide the secret environment variables in
+# the Render dashboard (MONGO_URI, NEXTAUTH_SECRET, etc.) before deploying.
+
+services:
+  - type: web
+    name: endeavor-backend
+    env: node
+    branch: main
+    buildCommand: cd backend && npm ci
+    startCommand: cd backend && npm start
+    autoDeploy: true
+    plan: free
+    envVars:
+      - key: MONGO_URI
+        value: "" # Set this in Render dashboard to your MongoDB connection string
+
+  - type: web
+    name: endeavor-frontend
+    env: node
+    branch: main
+    buildCommand: cd frontend && npm ci && npm run build
+    startCommand: cd frontend && npm run start
+    autoDeploy: true
+    plan: free
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: "" # Optional: replace with backend URL after backend is deployed (e.g. https://endeavor-backend.onrender.com)
+      - key: NEXTAUTH_URL
+        value: "" # Set to your frontend URL (e.g. https://endeavor-frontend.onrender.com)
+      - key: NEXTAUTH_SECRET
+        value: "" # Set this secret in Render dashboard
