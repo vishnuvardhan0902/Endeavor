@@ -24,6 +24,9 @@ export function Navbar() {
                 <Link href="/" className="text-lg font-semibold brand-logo hover:opacity-80 transition-opacity">Endeavor</Link>
             </div>
             <div className="flex items-center gap-3">
+                <Link href="/developer" className="px-3 py-1.5 rounded-md gradient-outline-btn text-sm font-medium text-slate-100 bg-slate-800/60 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all">
+                    Developer
+                </Link>
                 {session?.user && (
                     <Link href="/profile" className="px-3 py-1.5 rounded-md gradient-outline-btn text-sm font-medium text-slate-100 bg-slate-800/60 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all">
                         Profile
