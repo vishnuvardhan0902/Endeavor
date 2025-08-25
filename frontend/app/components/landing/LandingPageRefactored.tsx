@@ -8,7 +8,7 @@ import { FileUpload } from "./FileUpload";
 import { processUploadResponse } from "./uploadUtils";
 
 const MICRO_SERVICE_URI =
-    process.env.NEXT_PUBLIC_MICRO_SERVICE_URI || process.env.MICRO_SERVICE_URI || "http://127.0.0.1:8000";
+    process.env.NEXT_PUBLIC_MICRO_SERVICE_URL ;
 
 export interface LandingPageProps {
     onUpload?: (questions: any) => void;
