@@ -62,22 +62,22 @@ export const QuestionDisplay: React.FC<QuestionDisplayProps> = ({
           </div>
         </div>
 
-        {/* Additional DSA information */}
-        {question.examples && (
-          <div className="mt-4 p-4 bg-slate-800/50 rounded-lg border border-slate-600">
-            <h4 className="text-sm font-medium text-slate-300 mb-2">Examples:</h4>
-            <div className="text-slate-200 whitespace-pre-wrap text-sm">
-              {question.examples}
-            </div>
-          </div>
-        )}
+        {/* Additional DSA information (render inline beneath the question) */}
+        {(question.examples || question.constraints) && (
+          <div className="mt-4 text-sm text-slate-200 whitespace-pre-wrap leading-relaxed">
+            {question.examples && (
+              <div className="text-slate-300">
+                <span className="font-medium">Examples:</span>
+                <div className="text-slate-200 mt-1">{question.examples}</div>
+              </div>
+            )}
 
-        {question.constraints && (
-          <div className="mt-4 p-4 bg-slate-800/50 rounded-lg border border-slate-600">
-            <h4 className="text-sm font-medium text-slate-300 mb-2">Constraints:</h4>
-            <div className="text-slate-200 whitespace-pre-wrap text-sm">
-              {question.constraints}
-            </div>
+            {question.constraints && (
+              <div className="text-slate-300 mt-3">
+                <span className="font-medium">Constraints:</span>
+                <div className="text-slate-200 mt-1">{question.constraints}</div>
+              </div>
+            )}
           </div>
         )}
 
